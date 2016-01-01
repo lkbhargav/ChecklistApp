@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+<script>
+	
+	function verify()
+	{
+		var usn = document.rf.username.value;
+		var pwd = document.rf.passwrd.value;
+		var eml = document.rf.emailid.value;
+		var cpwd = document.rf.retypedPasswrd.value;
+		var pnu = document.rf.phonenumber.value;
+		//var compAcii = 0;
+		var capStatus = 0;
+		var caps = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+		var nums = ["0","1","2","3","4","5","6","7","8","9"];
+		var schar = ["~","!","@","#","$","%","^","*","(",")","_","-","=","+","?"];
+		var numStatus = 0;
+		var scrStatus = 0;
+		var pch = pwd.split("");
+		var doz = 0;
+		var dot = 0;
+		var indot = 1;
+		
+		if(pwd!=cpwd)
+		{
+			document.getElementById("cpwerror").innerHTML = "Passwords don't match";
+			return false;
+		}
+		else
+		{
+			document.getElementById("cpwerror").innerHTML = "";
+		}
+		
+		if(pwd.length<8)
+		{
+			document.getElementById("pwerror").innerHTML = "Password length has to be minimum 8 charecters long";
+			return false;			
+		}
+		else
+		{
+			document.getElementById("pwerror").innerHTML = "";
+		}
+		
+		for (var j = 0; j < pch.length; j++)
+		{
+			for (var i = 0; i < caps.length; i++) {
+		    	if(pch[j] == caps[i])
+		    	{
+		    		capStatus = 1;
+		    	}
+			}
+		}
+		
+		if(Boolean(!capStatus))
+		{
+			document.getElementById("pwerror").innerHTML = "Capital letter is missing in your password";
+			return false;
+		}
+		else
+		{
+			document.getElementById("pwerror").innerHTML = "";
+		}
+		
+		for (var j = 0; j < pch.length; j++)
+		{
+			for (var i = 0; i < nums.length; i++) {
+		    	if(pch[j] == nums[i])
+		    	{
+		    		numStatus = 1;
+		    	}
+			}
+		}
+		
+		if(Boolean(!numStatus))
+		{
+			document.getElementById("pwerror").innerHTML = "Number is missing in your password";
+			return false;
+		}
+		else
+		{
+			document.getElementById("pwerror").innerHTML = "";
+		}
+		
+		for (var j = 0; j < pch.length; j++)
+		{
+			for (var i = 0; i < schar.length; i++) {
+		    	if(pch[j] == schar[i])
+		    	{
+		    		scrStatus = 1;
+		    	}
+			}
+		}
+		
+		if(Boolean(!scrStatus))
+		{
+			document.getElementById("pwerror").innerHTML = "Special Charecter is missing in your password";
+			return false;
+		}
+		else
+		{
+			document.getElementById("pwerror").innerHTML = "";
+		}
+		
+		var em = eml.split("");
+		
+		for (var j = 0; j < em.length; j++) {
+		    if(em[j]=='.')
+		    {
+		    	doz = 1;
+		    }
+		}
+		
+		if(doz == 1)
+		{
+			for (var i = 0; i < em.length; i++) {
+		    	if(em[i]=='@')
+		    	{
+		    		dot = 1;
+                    var dot1 = 1;
+		    		while(dot1 < 5)
+		    		{
+		    			if(em[i+dot1] == ".")
+		    			{
+		    				indot = 0;
+                                        
+		    			}
+		    			dot1++;
+		    		}
+		    	}
+			}
+		}
+		else
+		{
+  			document.getElementById("eierror").innerHTML = "Invalid Email Id";
+  			return false;
+		}
+
+		if(doz == 1 && dot == 1 && indot == 1)
+		{
+  			document.getElementById("eierror").innerHTML = "";
+		}
+		else
+		{
+  			document.getElementById("eierror").innerHTML = "Invalid Email Id";
+  			return false;
+		}
+		
+		em = pnu.split("");
+		
+		dot = 0;
+		
+		for (var j = 0; j < em.length; j++)
+		{
+			for (var i = 0; i < 10; i++) {
+		    	if(em[j] == nums[i])
+		    	{
+		    		dot++;
+		    	}
+			}
+		}
+
+if(dot == 10)
+{
+  document.getElementById("pnuerror").innerHTML = "";
+}
+else
+{
+  document.getElementById("pnuerror").innerHTML = "Invalid Phone number";
+  return false;
+}
+		
+		
+		
+		
+		if(usn.length < 6)
+		{
+			document.getElementById("unerror").innerHTML = "Length of username can't be less than 6 charecters";
+			return false;
+		}
+		else
+		{
+			document.getElementById("unerror").innerHTML = "";
+		}
+	}
+</script>
+
+<h1 style="color:blue;">TO DO LIST</h1>
+<h3 style="color:red;"> Register</h3>
+<form onsubmit="return verify()" action="RegisterForm.jsp" method="post" name="rf">
+Firstname:        <input type="text" name = "firstname" required><br><br>
+Lastname :        <input type="text" name = "lastname" required><br><br>
+Email Id :        <input type="text" name = "emailid" required><br><p id="eierror" style="color:red"> </p><br>
+Username:         <input type="text" name = "username" required><br><p id="unerror" style="color:red"> </p><br>
+Password:         <input type="password" name = "passwrd" required> minimum 8 characters, 1 number, 1 special character (~ ! @ # $ % ^ * ( ) _ + - = ?) and 1 capital letter<br><p id="pwerror" style="color:red"> </p><br>
+Retype Password:  <input type="password" name = "retypedPasswrd" required> <br><p id="cpwerror" style="color:red"> </p><br>
+Phonenumber:      <input type="text" name = "phonenumber"><br><p id="pnuerror" style="color:red"> </p><br>
+Security Question:<select name="sq"> <option> Favourite Place..? </option> <option> How many stars in universe..? </option> </select> <input type="text" name="security" required> <br><br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                  <input type="submit" value ="submit">
+</form>
+<br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<button type="button" onclick="parent.location='index.html'"> Home </button>
+</body>
+</html>

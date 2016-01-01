@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+
+
+<script>
+function confirmpass()
+{
+var pwd = document.rpf.pass1.value;
+var cpwd = document.rpf.pass2.value;
+var numStatus = 0;
+var scrStatus = 0;
+var capStatus = 0;
+var pch = pwd.split("");
+var caps = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+var nums = ["0","1","2","3","4","5","6","7","8","9"];
+var schar = ["~","!","@","#","$","%","^","*","(",")","_","-","=","+","?"];
+
+if(pwd!=cpwd)
+{
+	document.getElementById("error").innerHTML = "Passwords don't match";
+	return false;
+}
+else
+{
+	document.getElementById("error").innerHTML = "";
+}
+
+if(pwd.length<8)
+{
+	document.getElementById("error").innerHTML = "Password length has to be minimum 8 charecters long";
+	return false;			
+}
+else
+{
+	document.getElementById("error").innerHTML = "";
+}
+
+for (var j = 0; j < pch.length; j++)
+{
+	for (var i = 0; i < caps.length; i++) {
+    	if(pch[j] == caps[i])
+    	{
+    		capStatus = 1;
+    	}
+	}
+}
+
+if(Boolean(!capStatus))
+{
+	document.getElementById("error").innerHTML = "Capital letter is missing in your password";
+	return false;
+}
+else
+{
+	document.getElementById("error").innerHTML = "";
+}
+
+for (var j = 0; j < pch.length; j++)
+{
+	for (var i = 0; i < nums.length; i++) {
+    	if(pch[j] == nums[i])
+    	{
+    		numStatus = 1;
+    	}
+	}
+}
+
+if(Boolean(!numStatus))
+{
+	document.getElementById("error").innerHTML = "Number is missing in your password";
+	return false;
+}
+else
+{
+	document.getElementById("error").innerHTML = "";
+}
+
+for (var j = 0; j < pch.length; j++)
+{
+	for (var i = 0; i < schar.length; i++) {
+    	if(pch[j] == schar[i])
+    	{
+    		scrStatus = 1;
+    	}
+	}
+}
+
+if(Boolean(!scrStatus))
+{
+	document.getElementById("error").innerHTML = "Special Charecter is missing in your password";
+	return false;
+}
+else
+{
+	document.getElementById("error").innerHTML = "";
+}
+}
+</script>
+
+
+<body>
+<form onsubmit="return confirmpass()" action="successfulPass.jsp" method="post" name="rpf">
+	New Password: <input type="password" name="pass1" required> <br>
+	Re-enter New Password: <input type="password" name="pass2" required> <br>
+	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input type="submit" value="Submit">
+	<p id='error'></p>
+</form>
+</body>
+</html>

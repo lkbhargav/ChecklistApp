@@ -1,0 +1,101 @@
+package todolist;
+
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ * Servlet implementation class saveChecklist
+ */
+@WebServlet("/saveChecklist")
+public class saveChecklist extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+	String query;
+	ResultSet rs;
+	int i = 0;
+	
+	
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public saveChecklist() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		//doGet(request, response);
+		
+		HttpSession sess = request.getSession();
+		String username = (String) sess.getAttribute("usn");
+		
+		// establish database connection
+		try {
+			databaseConnection dC = new databaseConnection();
+			databaseConnection dC2 = new databaseConnection();
+			query = "select indexNumber, userID from userTasks, registration where userTasks.userID=registration.id and registration.usn='"+username+"';";
+			rs = dC.selectQuery(query);
+			String val;
+			String message = "";
+			i = 0;
+			while(rs.next())
+			{
+				val = request.getParameter(""+rs.getInt(1)+"");
+				if(val != null)
+				{
+					query = "update userTasks set checked=TRUE where indexNumber="+rs.getInt(1)+";";
+					dC2.updateQuery(query);
+				}
+				else
+				{
+					query = "update userTasks set checked=FALSE where indexNumber="+rs.getInt(1)+";";
+					dC2.updateQuery(query);
+				}
+				i = rs.getInt(2);
+			}
+			query = "select * from userTasks where userID="+i+";";
+			rs = dC.selectQuery(query);
+			
+			while(rs.next())
+			{
+				String impval = ""+rs.getInt("indexNumber");
+				if(rs.getBoolean("checked"))
+					message = message + "<input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+" checked> <span id='"+impval+"' style='color:lightgray; text-decoration:line-through'>"+rs.getString("taskTitle")+":"+"</span> <span>"+rs.getString("taskDescription")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' value ='View' form='View1'> <input type='submit' value ='Delete' form='Delete1'> <br>";
+				else
+					message = message + "<input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+"> <span id='"+impval+"'>"+rs.getString("taskTitle")+":"+"</span> <span>"+rs.getString("taskDescription")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' value ='View' form='View1'> <input type='submit' value ='Delete' form='Delete1'> <br>";
+			}
+			request.setAttribute("checkboxes", message);
+			message = "Welcome "+username;
+			request.setAttribute("message", message);
+			request.getRequestDispatcher("frontPage.jsp").forward(request, response);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+}
