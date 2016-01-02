@@ -8,6 +8,8 @@
 </head>
 <body>
 	<p> Enter a checklist name </p>
-	<form method="post" action="categoryCreation" name="categoryList"> <input type="text" name="categoryName"> <input type="submit" value="Create Checklist"> </form> 
+	<form method="post" action="catCre" name="categoryList"> <input type="text" name="categoryName"> <input type="submit" value="Create Checklist"> </form>
+	<p> Following is your different checklists </p>
+	<form method="post" action="displayTasks" name="truelist"> ${category} </form>
 </body>
 </html>

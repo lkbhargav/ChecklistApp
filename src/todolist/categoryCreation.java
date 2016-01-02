@@ -48,6 +48,7 @@ public class categoryCreation extends HttpServlet {
 			PrintWriter pW = response.getWriter();
 			String catName = request.getParameter("categoryName");
 			HttpSession sess = request.getSession();
+			int id = (int) sess.getAttribute("userid");
 			String username = (String) sess.getAttribute("usn");
 			query = "select id from registration where usn='"+username+"';";
 			rs = dC.selectQuery(query);
@@ -60,6 +61,18 @@ public class categoryCreation extends HttpServlet {
 			{
 				pW.println("User doesn't exists!!!");
 			}
+			String mess1 ="";
+			query = "select * from checkcat where userID="+id+";";
+			rs = dC.selectQuery(query);
+			int i = 0;
+			while(rs.next())
+			{
+				i++;
+				mess1 += "<span style='font-weight: bold; font-size: large'>"+i+". "+rs.getString("catName")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' value='View Checklist' name='"+rs.getInt("catID")+"'> <br>";
+			}
+			
+			request.setAttribute("category", mess1);
+			request.getRequestDispatcher("taskCategoryList.jsp").forward(request, response);
 			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block

@@ -33,6 +33,7 @@ function check123(s)
 <form action="deleteValue" method="post" id="Delete1"></form>
 <!-- ${script } -->
 <form action="saveChecklist" method="post"> ${checkboxes }  <input type="submit" value="Save"> </form>
+<form method="post" action="backCategoryList"> ${back }</form>
 <a href='index.jsp'> Home</a>
 </body>
 </html>

@@ -60,6 +60,7 @@ public class loginIntoList extends HttpServlet {
 					rs = dC.selectQuery(query);
 					if(rs.next())
 					{
+						sess.setAttribute("userid", rs.getInt("id"));
 						String pwd = rs.getString(1);
 						int logonCount = rs.getInt(2);
 						int id = rs.getInt(3);
@@ -68,7 +69,19 @@ public class loginIntoList extends HttpServlet {
 							logonCount += 1;
 							query = "update registration set logC="+logonCount+" where usn ='"+username+"';";
 							dC.updateQuery(query);
-							query = "select * from userTasks where userID='"+id+"';";
+							
+							query = "select * from checkcat where userID="+id+";";
+							rs = dC.selectQuery(query);
+							int i = 0;
+							while(rs.next())
+							{
+								i++;
+								mess1 += "<span style='font-weight: bold; font-size: large'>"+i+". "+rs.getString("catName")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' value='View Checklist' name='"+rs.getInt("catID")+"'> <br>";
+							}
+							
+							request.setAttribute("category", mess1);
+							request.getRequestDispatcher("taskCategoryList.jsp").forward(request, response);
+							/*query = "select * from userTasks where userID='"+id+"';";
 							rs = dC.selectQuery(query);
 							
 							while(rs.next())
@@ -83,7 +96,7 @@ public class loginIntoList extends HttpServlet {
 							sess.setAttribute("loggedIn", "loggedin");
 							String message = "Welcome "+username;
 					        request.setAttribute("message", message); // This will be available as ${message}
-					        request.getRequestDispatcher("frontPage.jsp").forward(request, response);
+					        request.getRequestDispatcher("frontPage.jsp").forward(request, response);*/
 						}
 						else
 						{
