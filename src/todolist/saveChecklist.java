@@ -48,12 +48,13 @@ public class saveChecklist extends HttpServlet {
 		
 		HttpSession sess = request.getSession();
 		String username = (String) sess.getAttribute("usn");
-		
+		int id = (int) sess.getAttribute("userid");
+		int catid = (int) sess.getAttribute("catid");
 		// establish database connection
 		try {
 			databaseConnection dC = new databaseConnection();
 			databaseConnection dC2 = new databaseConnection();
-			query = "select indexNumber, userID from userTasks, registration where userTasks.userID=registration.id and registration.usn='"+username+"';";
+			query = "select indexNumber from userTasks, registration where userTasks.userID=registration.id and registration.usn='"+username+"' and catID="+catid+";";
 			rs = dC.selectQuery(query);
 			String val;
 			String message = "";
@@ -71,23 +72,27 @@ public class saveChecklist extends HttpServlet {
 					query = "update userTasks set checked=FALSE where indexNumber="+rs.getInt(1)+";";
 					dC2.updateQuery(query);
 				}
-				i = rs.getInt(2);
 			}
-			query = "select * from userTasks where userID="+i+";";
+			query = "select * from userTasks where catID="+catid+" and userID="+id+";";
 			rs = dC.selectQuery(query);
 			
+			String mess1 = "";
 			while(rs.next())
 			{
 				String impval = ""+rs.getInt("indexNumber");
 				if(rs.getBoolean("checked"))
-					message = message + "<input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+" checked> <span id='"+impval+"' style='color:lightgray; text-decoration:line-through'>"+rs.getString("taskTitle")+":"+"</span> <span>"+rs.getString("taskDescription")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' value ='View' form='View1'> <input type='submit' value ='Delete' form='Delete1'> <br>";
+					mess1 = mess1 + "<input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+" checked> <span id='"+impval+"' style='color:lightgray; text-decoration:line-through'>"+rs.getString("taskTitle")+":"+"</span> <span>"+rs.getString("taskDescription")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' value ='View' form='View1'> <input type='submit' value ='Delete' form='Delete1'> <br>";
 				else
-					message = message + "<input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+"> <span id='"+impval+"'>"+rs.getString("taskTitle")+":"+"</span> <span>"+rs.getString("taskDescription")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' value ='View' form='View1'> <input type='submit' value ='Delete' form='Delete1'> <br>";
+					mess1 = mess1 + "<input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+"> <span id='"+impval+"'>"+rs.getString("taskTitle")+":"+"</span> <span>"+rs.getString("taskDescription")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' value ='View' form='View1'> <input type='submit' value ='Delete' form='Delete1'> <br>";
 			}
-			request.setAttribute("checkboxes", message);
-			message = "Welcome "+username;
-			request.setAttribute("message", message);
-			request.getRequestDispatcher("frontPage.jsp").forward(request, response);
+			
+			String message1 = "<input type='submit' value='Go Back'>";
+			request.setAttribute("back", message1);
+			request.setAttribute("checkboxes", mess1);
+			sess.setAttribute("loggedIn", "loggedin");
+			message = "Welcome "+sess.getAttribute("usn");
+	        request.setAttribute("message", message); // This will be available as ${message}
+	        request.getRequestDispatcher("frontPage.jsp").forward(request, response);		
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

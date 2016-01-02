@@ -11,13 +11,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
+
 /**
  * Servlet implementation class displayTasks
  */
 @WebServlet("/displayTasks")
 public class displayTasks extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    //final static Logger logger12 = Logger.getLogger(displayTasks.class);
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -40,6 +44,8 @@ public class displayTasks extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
+		
+		//PropertyConfigurator.configure("log4j.properties");
 		String query;
 		HttpSession sess = request.getSession();
 		int id = (int) sess.getAttribute("userid");
@@ -49,18 +55,20 @@ public class displayTasks extends HttpServlet {
 			dC = new databaseConnection();
 			query = "select catID from checkcat where userID="+id+";";
 			ResultSet rs = dC.selectQuery(query);
-			String catID = "";
-			while(rs.next() && catID.equals(""))
+			String catID = null;
+			while(rs.next() && catID == null)
 			{
 				String idd = rs.getInt("catID")+"";
 				catID = request.getParameter(idd);
-				if(!catID.equals(null))
+				//logger12.debug("Category ID is: "+catID);
+				System.out.println(catID);
+				if(!(catID == null))
 				{
 					cid = rs.getInt("catID");
 				}
 				else
 				{
-					catID="";
+					catID=null;
 				}
 			}
 			
@@ -68,6 +76,7 @@ public class displayTasks extends HttpServlet {
 			{
 				query = "select * from userTasks where catID="+cid+" and userID="+id+";";
 				rs = dC.selectQuery(query);
+				sess.setAttribute("catid", cid);
 			}
 			String mess1 = "";
 			while(rs.next())

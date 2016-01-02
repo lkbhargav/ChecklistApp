@@ -43,6 +43,63 @@ public class proCreTas extends HttpServlet {
 		String title = request.getParameter("title");
 		String description = request.getParameter("description");
 		HttpSession sess = request.getSession();
+		id = (int) sess.getAttribute("userid");
+		ResultSet rs;
+		String query;
+		String message = "";
+		try {
+			databaseConnection dC = new databaseConnection();
+			int catid = (int) sess.getAttribute("catid");
+				query = "insert into userTasks(userID, taskTitle, taskDescription, catID) values("+id+",'"+title+"','"+description+"',"+catid+");";
+				dC.insertQuery(query);
+				query = "select * from userTasks where catID="+catid+" and userID="+id+";";
+				rs = dC.selectQuery(query);
+				
+				String mess1 = "";
+				while(rs.next())
+				{
+					String impval = ""+rs.getInt("indexNumber");
+					if(rs.getBoolean("checked"))
+						mess1 = mess1 + "<input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+" checked> <span id='"+impval+"' style='color:lightgray; text-decoration:line-through'>"+rs.getString("taskTitle")+":"+"</span> <span>"+rs.getString("taskDescription")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' value ='View' form='View1'> <input type='submit' value ='Delete' form='Delete1'> <br>";
+					else
+						mess1 = mess1 + "<input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+"> <span id='"+impval+"'>"+rs.getString("taskTitle")+":"+"</span> <span>"+rs.getString("taskDescription")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' value ='View' form='View1'> <input type='submit' value ='Delete' form='Delete1'> <br>";
+				}
+				
+				String message1 = "<input type='submit' value='Go Back'>";
+				request.setAttribute("back", message1);
+				request.setAttribute("checkboxes", mess1);
+				sess.setAttribute("loggedIn", "loggedin");
+				message = "Welcome "+sess.getAttribute("usn");
+		        request.setAttribute("message", message); // This will be available as ${message}
+		        request.getRequestDispatcher("frontPage.jsp").forward(request, response);		
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*
+		
+		
+		
+		
+		int id;
+		String title = request.getParameter("title");
+		String description = request.getParameter("description");
+		HttpSession sess = request.getSession();
 		String username = (String) sess.getAttribute("usn");
 		ResultSet rs;
 		String query;
@@ -86,6 +143,10 @@ public class proCreTas extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		*/
+		
+		
 		
 	}
 

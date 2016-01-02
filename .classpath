@@ -16,5 +16,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/gmailLibrary.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javax.mail.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Bhargav/Downloads/log4j.jar/log4j.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
