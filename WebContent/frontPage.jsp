@@ -29,10 +29,10 @@ function check123(s)
 
 <form name="task_input" method="post" action="proCreTas"> Title: <input type="text" name="title"  placeholder="ex: Laundry" required> Description: <input type="text" name="description" placeholder="ex: Bring clothes back home" required> <input type="submit" value="Create Task" ></form>  
 <p id="error"></p>
-<form action="descriptionValue" method="post" id="View1"></form>
-<form action="deleteValue" method="post" id="Delete1"></form>
+<form action="descriptionValue" method="post" id='View1'></form>
+<form action="deleteValue" method="post" id='Delete1'></form>
 <!-- ${script } -->
-<form action="saveChecklist" method="post"> ${checkboxes }  <input type="submit" value="Save"> </form>
+<form action="saveChecklist" method="post" id='VieDel'> ${checkboxes }  <input type="submit" value="Save"> </form>
 <form method="post" action="backCategoryList"> ${back }</form>
 <a href='index.jsp'> Home</a>
 </body>

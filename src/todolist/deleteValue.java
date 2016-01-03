@@ -1,8 +1,10 @@
 package todolist;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,21 +13,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-
-
 /**
- * Servlet implementation class displayTasks
+ * Servlet implementation class deleteValue
  */
-@WebServlet("/displayTasks")
-public class displayTasks extends HttpServlet {
+@WebServlet("/deleteValue")
+public class deleteValue extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    //final static Logger logger12 = Logger.getLogger(displayTasks.class);
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public displayTasks() {
+    public deleteValue() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,48 +42,41 @@ public class displayTasks extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
-		
-		//PropertyConfigurator.configure("log4j.properties");
-		String query;
-		HttpSession sess = request.getSession();
-		int id = (int) sess.getAttribute("userid");
-		int cid = 0;
-		databaseConnection dC;
 		try {
-			dC = new databaseConnection();
-			query = "select catID from checkcat where userID="+id+";";
+			databaseConnection dC = new databaseConnection();
+			String query;
+			String n = null;
+			int val=0;
+			Boolean status = true;
+			//PrintWriter pW = response.getWriter();
+			HttpSession sess = request.getSession();
+			int id = (int) sess.getAttribute("userid");
+			query = "select indexNumber from userTasks where userID="+id+";";
 			ResultSet rs = dC.selectQuery(query);
-			String catID = null;
-			while(rs.next() && catID == null)
+			while(rs.next() && status)
 			{
-				String idd = rs.getInt("catID")+"";
-				catID = request.getParameter(idd);
-				//logger12.debug("Category ID is: "+catID);
-				System.out.println(catID);
-				if(!(catID == null))
+				n = request.getParameter(""+rs.getInt(1));
+				//pW.println(rs.getInt(1)+" "+n);
+				if(n != null)
 				{
-					cid = rs.getInt("catID");
-				}
-				else
-				{
-					catID=null;
+					val = rs.getInt(1);
+					status = false;
 				}
 			}
+			query = "update userTasks set deleted=1 where userID="+id+" and indexNumber="+val+";";
+			dC.updateQuery(query);
+			int catid = (int) sess.getAttribute("catid");
+			query = "select * from userTasks where catID="+catid+" and userID="+id+" and deleted=0;";
+			rs = dC.selectQuery(query);
 			
-			if(cid!=0)
-			{
-				query = "select * from userTasks where catID="+cid+" and userID="+id+" and deleted="+0+";";
-				rs = dC.selectQuery(query);
-				sess.setAttribute("catid", cid);
-			}
 			String mess1 = "";
 			while(rs.next())
 			{
 				String impval = ""+rs.getInt("indexNumber");
 				if(rs.getBoolean("checked"))
-					mess1 = mess1 + "<input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+" checked> <span id='"+impval+"' style='color:lightgray; text-decoration:line-through'>"+rs.getString("taskTitle")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' name="+impval+" value ='View' form='View1'> <input type='submit' name="+impval+" value ='Delete' form='Delete1'> <br>";
+					mess1 = mess1 + "<input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+" checked> <span id='"+impval+"' style='color:lightgray; text-decoration:line-through'>"+rs.getString("taskTitle")+":"+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' name="+impval+" value ='View' form='View1'> <input type='submit' name="+impval+" value ='Delete' form='Delete1'> <br>";
 				else
-					mess1 = mess1 + "<input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+"> <span id='"+impval+"'>"+rs.getString("taskTitle")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' name="+impval+" value ='View' form='View1'> <input type='submit' name="+impval+" value ='Delete' form='Delete1'> <br>";
+					mess1 = mess1 + "<input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+"> <span id='"+impval+"'>"+rs.getString("taskTitle")+":"+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' name="+impval+" value ='View' form='View1'> <input type='submit' name="+impval+" value ='Delete' form='Delete1'> <br>";
 			}
 			
 			String message1 = "<input type='submit' value='Go Back'>";
@@ -100,7 +91,6 @@ public class displayTasks extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		
 	}
 

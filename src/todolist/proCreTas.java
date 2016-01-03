@@ -50,9 +50,9 @@ public class proCreTas extends HttpServlet {
 		try {
 			databaseConnection dC = new databaseConnection();
 			int catid = (int) sess.getAttribute("catid");
-				query = "insert into userTasks(userID, taskTitle, taskDescription, catID) values("+id+",'"+title+"','"+description+"',"+catid+");";
+				query = "insert into userTasks(userID, taskTitle, taskDescription, catID, deleted) values("+id+",'"+title+"','"+description+"',"+catid+",0);";
 				dC.insertQuery(query);
-				query = "select * from userTasks where catID="+catid+" and userID="+id+";";
+				query = "select * from userTasks where catID="+catid+" and userID="+id+" and deleted=0;";
 				rs = dC.selectQuery(query);
 				
 				String mess1 = "";
@@ -60,9 +60,9 @@ public class proCreTas extends HttpServlet {
 				{
 					String impval = ""+rs.getInt("indexNumber");
 					if(rs.getBoolean("checked"))
-						mess1 = mess1 + "<input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+" checked> <span id='"+impval+"' style='color:lightgray; text-decoration:line-through'>"+rs.getString("taskTitle")+":"+"</span> <span>"+rs.getString("taskDescription")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' value ='View' form='View1'> <input type='submit' value ='Delete' form='Delete1'> <br>";
+						mess1 = mess1 + "<input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+" checked> <span id='"+impval+"' style='color:lightgray; text-decoration:line-through'>"+rs.getString("taskTitle")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' name="+impval+" value ='View' form='View1'> <input type='submit' name="+impval+" value ='Delete' form='Delete1'> <br>";
 					else
-						mess1 = mess1 + "<input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+"> <span id='"+impval+"'>"+rs.getString("taskTitle")+":"+"</span> <span>"+rs.getString("taskDescription")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' value ='View' form='View1'> <input type='submit' value ='Delete' form='Delete1'> <br>";
+						mess1 = mess1 + "<input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+"> <span id='"+impval+"'>"+rs.getString("taskTitle")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' name="+impval+" value ='View' form='View1'> <input type='submit' name="+impval+" value ='Delete' form='Delete1'> <br>";
 				}
 				
 				String message1 = "<input type='submit' value='Go Back'>";

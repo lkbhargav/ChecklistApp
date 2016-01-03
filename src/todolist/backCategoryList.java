@@ -53,7 +53,7 @@ public class backCategoryList extends HttpServlet {
 				while(rs.next())
 				{
 					i++;
-					mess1 += "<span style='font-weight: bold; font-size: large'>"+i+". "+rs.getString("catName")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' value='View Checklist' name='"+rs.getInt("catID")+"'> <br>";
+					mess1 += "<span style='font-weight: bold; font-size: large'>"+i+". "+rs.getString("catName")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' value='View Checklist' name='"+rs.getInt("catID")+"'> <input type='submit' value='Delete Checklist' name='"+rs.getInt("catID")+"'> <br>";
 				}
 				
 				request.setAttribute("category", mess1);
