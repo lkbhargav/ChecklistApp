@@ -49,7 +49,7 @@
 	if(!rs.next())
 	{
 		query = "select * from registration where eid='"+email+"';";
-		dC.selectQuery(query);
+		rs = dC.selectQuery(query);
 		//rs = st.executeQuery("select * from registration where eid='"+email+"';");
 		if(!rs.next())
 		{
