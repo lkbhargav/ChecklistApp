@@ -1,10 +1,11 @@
+<%@page import="todolist.databaseConnection"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Password Changed Form</title>
 </head>
 <body>
 
@@ -17,16 +18,17 @@
 
 String password = request.getParameter("pass1");
 
-Class.forName("com.mysql.jdbc.Driver");
-java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3316/todo","root","lkbhargav123KING#@!$%");
-Statement st = conn.createStatement();
-
+//Class.forName("com.mysql.jdbc.Driver");
+databaseConnection dC = new databaseConnection();
 HttpSession sess = request.getSession();
 String ans = (String) sess.getAttribute("eID");
+String query = "update registration set pwd = '"+password+"' where eid = '"+ans+"';";
+dC.updateQuery(query);
+//java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3316/todo","root","lkbhargav123KING#@!$%");
+//Statement st = conn.createStatement();
 
-st.executeUpdate("update registration set pwd = '"+password+"' where eid = '"+ans+"';");
-
-out.println("Password Chnaged Successfully");
+out.println("Password Changed Successfully");
+out.println("<a href='index.html'>Home</a>");
 %>
 </body>
 </html>

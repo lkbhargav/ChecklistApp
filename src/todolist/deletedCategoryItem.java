@@ -1,7 +1,6 @@
 package todolist;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -13,16 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class categoryCreation
+ * Servlet implementation class deletedCategoryItem
  */
-@WebServlet(name = "catCre", urlPatterns = { "/catCre" })
-public class categoryCreation extends HttpServlet {
+@WebServlet("/deletedCategoryItem")
+public class deletedCategoryItem extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public categoryCreation() {
+    public deletedCategoryItem() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,27 +42,29 @@ public class categoryCreation extends HttpServlet {
 		//doGet(request, response);
 		try {
 			databaseConnection dC = new databaseConnection();
-			ResultSet rs = null;
 			String query;
-			PrintWriter pW = response.getWriter();
-			String catName = request.getParameter("categoryName");
+			ResultSet rs;
+			String n = null;
+			int val=0;
+			Boolean status = true;
 			HttpSession sess = request.getSession();
 			int id = (int) sess.getAttribute("userid");
-			String username = (String) sess.getAttribute("usn");
-			query = "select id from registration where usn='"+username+"';";
+			query = "select catID from checkcat where userID="+id+";";
 			rs = dC.selectQuery(query);
-			if(rs.next())
+			while(rs.next() && status)
 			{
-				query = "insert into checkCat(userID, catName, deleted) values("+rs.getInt(1)+",'"+catName+"',0);";
-				dC.insertQuery(query);
+				n = request.getParameter(""+rs.getInt(1));
+				if(n != null)
+				{
+					val = rs.getInt(1);
+					status = false;
+				}
 			}
-			else
-			{
-				pW.println("User doesn't exists!!!");
-			}
-			String mess1 ="";
+			query = "update checkcat set deleted=1 where catID="+val+";";
+			dC.updateQuery(query);
 			query = "select * from checkcat where userID="+id+" and deleted=0;";
 			rs = dC.selectQuery(query);
+			String mess1 = "";
 			int i = 0;
 			while(rs.next())
 			{
@@ -73,14 +74,10 @@ public class categoryCreation extends HttpServlet {
 			request.setAttribute("category", mess1);
 			request.getRequestDispatcher("taskCategoryList.jsp").forward(request, response);
 			
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 
 }

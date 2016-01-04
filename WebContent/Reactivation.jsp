@@ -1,3 +1,4 @@
+<%@page import="todolist.databaseConnection"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -20,8 +21,10 @@ int random = rm.nextInt(1000)+9999;
 String body = "Verification Code is: "+random;
 
 // establishing mysql connection 
-Class.forName("com.mysql.jdbc.Driver");
-java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3316/todo","root","lkbhargav123KING#@!$%");
+//Class.forName("com.mysql.jdbc.Driver");
+//java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3316/todo","root","lkbhargav123KING#@!$%");
+databaseConnection dC = new databaseConnection();
+String query;
 
 String email = request.getParameter("mailID");
 
@@ -29,9 +32,10 @@ String email = request.getParameter("mailID");
 HttpSession sess = request.getSession();
 sess.setAttribute("email", email);
 
-Statement st = conn.createStatement();
+//Statement st = conn.createStatement();
 
-ResultSet rs = st.executeQuery("select activation from registration where eid = '"+email+"';");
+query = "select activation from registration where eid = '"+email+"';";
+ResultSet rs = dC.selectQuery(query);//st.executeQuery("select activation from registration where eid = '"+email+"';");
 
 if(!rs.next())
 {
@@ -49,7 +53,9 @@ else
 	{
 		new GmailLibrary("mailtosecureyou","mailstodeliver",email,"Verification Email",body);
 		out.println("<form method='post' action='regVeri' name='verification'>Verification Code: </br> <input type='password' id='code' name='code'> <input type='submit'> </form>");
-		st.executeUpdate("update registration set scode="+random+" where eid='"+email+"' ;");
+		query = "update registration set scode="+random+" where eid='"+email+"' ;";
+		dC.updateQuery(query);
+		//st.executeUpdate("update registration set scode="+random+" where eid='"+email+"' ;");
 	}
 }
 %>
