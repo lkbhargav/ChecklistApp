@@ -20,7 +20,7 @@
 
 <body>
 	<p> Enter a checklist name </p>
-	<form method="post" action="catCre" name="categoryList"> <input type="text" name="categoryName"> <input type="submit" value="Create Checklist"> </form>
+	<form method="post" action="catCre" name="categoryList"> <input type="text" name="categoryName" required> <input type="submit" value="Create Checklist"> </form>
 	<p> Following is your different checklists </p>
     <form method="post" action="displayTasks" name="truelist"> <table> ${category} </table> </form> 
 	<form method='post' action='deletedCategoryItem' id='deleteItem'> </form>

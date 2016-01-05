@@ -17,8 +17,7 @@
 <%
 	Random rm = new Random();
 	int random = rm.nextInt(1000)+9999;
-	String body = "Verification Code is: "+random;
-	
+	String body = "Activation Code: "+random;
 	// establishing mysql connection 
 	//Class.forName("com.mysql.jdbc.Driver");
 	databaseConnection dC = new databaseConnection();

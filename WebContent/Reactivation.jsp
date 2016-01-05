@@ -18,8 +18,7 @@
 <% 
 Random rm = new Random();
 int random = rm.nextInt(1000)+9999;
-String body = "Verification Code is: "+random;
-
+String body = "Activation Code: "+random; 
 // establishing mysql connection 
 //Class.forName("com.mysql.jdbc.Driver");
 //java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3316/todo","root","lkbhargav123KING#@!$%");
@@ -27,7 +26,8 @@ databaseConnection dC = new databaseConnection();
 String query;
 
 String email = request.getParameter("mailID");
-
+String[] emid = new String[1];
+emid[0] = email;
 //creating session objects
 HttpSession sess = request.getSession();
 sess.setAttribute("email", email);
