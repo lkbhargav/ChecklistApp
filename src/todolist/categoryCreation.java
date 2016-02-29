@@ -41,34 +41,34 @@ public class categoryCreation extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
+		ResultSet rs = null;
+		String query;
+		PrintWriter pW = response.getWriter();;
 		try {
 			databaseConnection dC = new databaseConnection();
-			ResultSet rs = null;
-			String query;
-			PrintWriter pW = response.getWriter();
+			//pW = response.getWriter();
 			String catName = request.getParameter("categoryName");
 			HttpSession sess = request.getSession();
 			int id = (int) sess.getAttribute("userid");
-			String username = (String) sess.getAttribute("usn");
-			query = "select id from registration where usn='"+username+"';";
-			rs = dC.selectQuery(query);
-			if(rs.next())
-			{
-				query = "insert into checkCat(userID, catName, deleted) values("+rs.getInt(1)+",'"+catName+"',0);";
-				dC.insertQuery(query);
-			}
-			else
-			{
-				pW.println("User doesn't exists!!!");
-			}
+			//String username = (String) sess.getAttribute("usn");
+			//query = "select id from registration where usn='"+username+"';";
+			//rs = dC.selectQuery(query);
+			//pW.println(query);
+			//if(rs.next())
+			query = "insert into checkcat(userID, catName, deleted) values("+id+",'"+catName+"',0);"; pW.println(query);
+			dC.insertQuery(query);
 			String mess1 ="";
-			query = "select * from checkcat where userID="+id+" and deleted=0;";
-			rs = dC.selectQuery(query);
+			query = "select * from checkcat where userID="+id+" and deleted=0;"; pW.println("5");
+			rs = dC.selectQuery(query); pW.println("6");
+			pW.println(query);
 			int i = 0;
 			while(rs.next())
 			{
 				i++;
-				mess1 += "<tr> <td> <span style='font-weight: bold; font-size: large'>"+i+". "+rs.getString("catName")+"</span> </td> &nbsp &nbsp &nbsp &nbsp <td> <input type='submit' value='View Checklist' name='"+rs.getInt("catID")+"'> </td> <td> <input type='submit' value='Delete Checklist' name='"+rs.getInt("catID")+"' form='deleteItem'> </td> </tr> <br>";			}
+				mess1 += "<tr> <td> <span style='font-weight: bold; font-size: large'>"+i+". "+rs.getString("catName")+"</span> </td> &nbsp &nbsp &nbsp &nbsp <td> <input type='submit' value='View Checklist' name='"+rs.getInt("catID")+"'> </td> <td> <input type='submit' value='Delete Checklist' name='"+rs.getInt("catID")+"' form='deleteItem'> </td> </tr> <br>";			
+			}
+			
+			pW.println(mess1);
 			
 			request.setAttribute("category", mess1);
 			request.getRequestDispatcher("taskCategoryList.jsp").forward(request, response);
@@ -79,6 +79,9 @@ public class categoryCreation extends HttpServlet {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch(Exception e)
+		{
+			pW.println("Error inserting data");
 		}
 		
 	}

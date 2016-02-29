@@ -50,7 +50,7 @@ public class descriptionValue extends HttpServlet {
 			//PrintWriter pW = response.getWriter();
 			HttpSession sess = request.getSession();
 			int id = (int) sess.getAttribute("userid");
-			query = "select indexNumber from userTasks where userID="+id+";";
+			query = "select indexNumber from usertasks where userID="+id+";";
 			ResultSet rs = dC.selectQuery(query);
 			while(rs.next() && status)
 			{
@@ -62,7 +62,7 @@ public class descriptionValue extends HttpServlet {
 					status = false;
 				}
 			}
-			query = "select taskTitle, taskDescription, catID from userTasks where indexNumber="+val+";";
+			query = "select taskTitle, taskDescription, catID from usertasks where indexNumber="+val+";";
 			rs = dC.selectQuery(query);
 			
 			rs.next();

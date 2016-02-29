@@ -50,9 +50,9 @@ public class proCreTas extends HttpServlet {
 		try {
 			databaseConnection dC = new databaseConnection();
 			int catid = (int) sess.getAttribute("catid");
-				query = "insert into userTasks(userID, taskTitle, taskDescription, catID, deleted) values("+id+",'"+title+"','"+description+"',"+catid+",0);";
+				query = "insert into usertasks(userID, taskTitle, taskDescription, catID, deleted) values("+id+",'"+title+"','"+description+"',"+catid+",0);";
 				dC.insertQuery(query);
-				query = "select * from userTasks where catID="+catid+" and userID="+id+" and deleted=0;";
+				query = "select * from usertasks where catID="+catid+" and userID="+id+" and deleted=0;";
 				rs = dC.selectQuery(query);
 				
 				String mess1 = "";

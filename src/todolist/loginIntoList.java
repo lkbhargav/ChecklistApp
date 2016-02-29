@@ -81,22 +81,6 @@ public class loginIntoList extends HttpServlet {
 							
 							request.setAttribute("category", mess1);
 							request.getRequestDispatcher("taskCategoryList.jsp").forward(request, response);
-							/*query = "select * from userTasks where userID='"+id+"';";
-							rs = dC.selectQuery(query);
-							
-							while(rs.next())
-							{
-								String impval = ""+rs.getInt("indexNumber");
-								if(rs.getBoolean("checked"))
-									mess1 = mess1 + "<input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+" checked> <span id='"+impval+"' style='color:lightgray; text-decoration:line-through'>"+rs.getString("taskTitle")+":"+"</span> <span>"+rs.getString("taskDescription")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' value ='View' form='View1'> <input type='submit' value ='Delete' form='Delete1'> <br>";
-								else
-									mess1 = mess1 + "<input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+"> <span id='"+impval+"'>"+rs.getString("taskTitle")+":"+"</span> <span>"+rs.getString("taskDescription")+"</span> &nbsp &nbsp &nbsp &nbsp <input type='submit' value ='View' form='View1'> <input type='submit' value ='Delete' form='Delete1'> <br>";
-							}
-							request.setAttribute("checkboxes", mess1);
-							sess.setAttribute("loggedIn", "loggedin");
-							String message = "Welcome "+username;
-					        request.setAttribute("message", message); // This will be available as ${message}
-					        request.getRequestDispatcher("frontPage.jsp").forward(request, response);*/
 						}
 						else
 						{

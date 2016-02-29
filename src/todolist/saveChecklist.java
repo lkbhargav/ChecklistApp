@@ -54,7 +54,7 @@ public class saveChecklist extends HttpServlet {
 		try {
 			databaseConnection dC = new databaseConnection();
 			databaseConnection dC2 = new databaseConnection();
-			query = "select indexNumber from userTasks, registration where userTasks.userID=registration.id and registration.usn='"+username+"' and catID="+catid+";";
+			query = "select indexNumber from usertasks, registration where usertasks.userID=registration.id and registration.usn='"+username+"' and catID="+catid+";";
 			rs = dC.selectQuery(query);
 			String val;
 			String message = "";
@@ -64,16 +64,16 @@ public class saveChecklist extends HttpServlet {
 				val = request.getParameter(""+rs.getInt(1)+"");
 				if(val != null)
 				{
-					query = "update userTasks set checked=TRUE where indexNumber="+rs.getInt(1)+";";
+					query = "update usertasks set checked=TRUE where indexNumber="+rs.getInt(1)+";";
 					dC2.updateQuery(query);
 				}
 				else
 				{
-					query = "update userTasks set checked=FALSE where indexNumber="+rs.getInt(1)+";";
+					query = "update usertasks set checked=FALSE where indexNumber="+rs.getInt(1)+";";
 					dC2.updateQuery(query);
 				}
 			}
-			query = "select * from userTasks where catID="+catid+" and userID="+id+" and deleted="+0+";";
+			query = "select * from usertasks where catID="+catid+" and userID="+id+" and deleted="+0+";";
 			rs = dC.selectQuery(query);
 			
 			String mess1 = "";

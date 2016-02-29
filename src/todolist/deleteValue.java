@@ -51,7 +51,7 @@ public class deleteValue extends HttpServlet {
 			//PrintWriter pW = response.getWriter();
 			HttpSession sess = request.getSession();
 			int id = (int) sess.getAttribute("userid");
-			query = "select indexNumber from userTasks where userID="+id+";";
+			query = "select indexNumber from usertasks where userID="+id+";";
 			ResultSet rs = dC.selectQuery(query);
 			while(rs.next() && status)
 			{
@@ -63,10 +63,10 @@ public class deleteValue extends HttpServlet {
 					status = false;
 				}
 			}
-			query = "update userTasks set deleted=1 where userID="+id+" and indexNumber="+val+";";
+			query = "update usertasks set deleted=1 where userID="+id+" and indexNumber="+val+";";
 			dC.updateQuery(query);
 			int catid = (int) sess.getAttribute("catid");
-			query = "select * from userTasks where catID="+catid+" and userID="+id+" and deleted=0;";
+			query = "select * from usertasks where catID="+catid+" and userID="+id+" and deleted=0;";
 			rs = dC.selectQuery(query);
 			
 			String mess1 = "";

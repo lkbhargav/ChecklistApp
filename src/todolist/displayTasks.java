@@ -53,7 +53,7 @@ public class displayTasks extends HttpServlet {
 		databaseConnection dC;
 		try {
 			dC = new databaseConnection();
-			query = "select catID from checkcat where userID="+id+";";
+			query = "select catid from checkcat where userid="+id+";";
 			ResultSet rs = dC.selectQuery(query);
 			String catID = null;
 			while(rs.next() && catID == null)
@@ -74,7 +74,7 @@ public class displayTasks extends HttpServlet {
 			
 			if(cid!=0)
 			{
-				query = "select * from userTasks where catID="+cid+" and userID="+id+" and deleted="+0+";";
+				query = "select * from usertasks where catid="+cid+" and userid="+id+" and deleted="+0+";";
 				rs = dC.selectQuery(query);
 				sess.setAttribute("catid", cid);
 			}
