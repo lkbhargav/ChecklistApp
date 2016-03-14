@@ -76,7 +76,7 @@ public class loginIntoList extends HttpServlet {
 							while(rs.next())
 							{
 								i++;
-								mess1 += "<tr> <td> <span style='font-weight: bold; font-size: large'>"+i+". "+rs.getString("catName")+"</span> </td> &nbsp &nbsp &nbsp &nbsp <td> <input type='submit' value='View Checklist' name='"+rs.getInt("catID")+"'> </td> <td> <input type='submit' value='Delete Checklist' name='"+rs.getInt("catID")+"' form='deleteItem'> </td> </tr> <br>";
+								mess1 += "<tr> <td> <span style='font-weight: bold; font-size: large'>"+i+". "+rs.getString("catName")+"</span> </td> &nbsp &nbsp &nbsp &nbsp <td> <input type='submit' value='View Checklist' name='"+rs.getInt("catID")+"'> </td> <td> <input type='submit' value='Delete Checklist' name='"+rs.getInt("catID")+"' form='deleteItem'> </td> </tr>";
 							}
 							
 							request.setAttribute("category", mess1);

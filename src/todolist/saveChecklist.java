@@ -81,9 +81,9 @@ public class saveChecklist extends HttpServlet {
 			{
 				String impval = ""+rs.getInt("indexNumber");
 				if(rs.getBoolean("checked"))
-					mess1 = mess1 + "<tr> <td> <input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+" checked> <span id='"+impval+"' style='color:lightgray; text-decoration:line-through'>"+rs.getString("taskTitle")+"</span> </td> &nbsp &nbsp &nbsp &nbsp <td> <input type='submit' name="+impval+" value ='View' form='View1'> </td> <td> <input type='submit' name="+impval+" value ='Delete' form='Delete1'> </td> </tr> <br>";
+					mess1 = mess1 + "<tr> <td> <input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+" checked> <span id='"+impval+"' style='color:lightgray; text-decoration:line-through'>"+rs.getString("taskTitle")+"</span> </td> &nbsp &nbsp &nbsp &nbsp <td> <input type='submit' name="+impval+" value ='View' form='View1'> </td> <td> <input type='submit' name="+impval+" value ='Delete' form='Delete1'> </td> </tr>";
 				else
-					mess1 = mess1 + "<tr> <td> <input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+"> <span id='"+impval+"'>"+rs.getString("taskTitle")+"</span> </td> &nbsp &nbsp &nbsp &nbsp <td> <input type='submit' name="+impval+" value ='View' form='View1'> </td> <td> <input type='submit' name="+impval+" value ='Delete' form='Delete1'> </td> </tr> <br>";
+					mess1 = mess1 + "<tr> <td> <input type='checkbox' onClick='check123("+impval+")' id="+impval+2+" name="+impval+"> <span id='"+impval+"'>"+rs.getString("taskTitle")+"</span> </td> &nbsp &nbsp &nbsp &nbsp <td> <input type='submit' name="+impval+" value ='View' form='View1'> </td> <td> <input type='submit' name="+impval+" value ='Delete' form='Delete1'> </td> </tr>";
 			}
 			
 			String message1 = "<input type='submit' value='Go Back'>";
