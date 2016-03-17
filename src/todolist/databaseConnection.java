@@ -28,7 +28,7 @@ public class databaseConnection extends HttpServlet {
 	PreparedStatement pS;
     public databaseConnection() throws ClassNotFoundException, SQLException {
         super();
-        Class.forName("com.mysql.jdbc.Driver");
+        //Class.forName("com.mysql.jdbc.Driver");
 		//conn = DriverManager.getConnection("jdbc:mysql://localhost:3316/todo","root","lkbhargav123KING#@!$%");
         conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/todo","root","password");
 		st = conn.createStatement();

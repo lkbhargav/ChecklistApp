@@ -38,11 +38,11 @@ public class logout extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		HttpSession sess = request.getSession();
-		sess.setAttribute("loggedIn", "");
 		sess.removeAttribute("usn");
 		sess.removeAttribute("userid");
 		sess.removeAttribute("catid");
-		response.sendRedirect("index.jsp");
+		sess.removeAttribute("loggedIn");
+		response.sendRedirect("initialize");
 	}
 
 }

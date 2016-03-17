@@ -1,9 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <title>Home</title>
 <style>
 td {
@@ -21,6 +26,7 @@ th{
 </style>
 </head>
 <body>
+<div class="container">
 <!--<h1> Sai Baba </h1>  -->
 <header ><center><embed src="fB.swf" height="135" type="application/x-shockwave-flash" width="550"></embed></center></header>
 <%
@@ -30,22 +36,27 @@ String uid =  (String) sess.getAttribute("loggedIn");
 if(!uid.equals("loggedin"))
 {
 %>
-<form method="post" name ="login" action="loginIntoList">
+<div class="row row-content">
+<form role"form" method="post" name ="login" action="loginIntoList">
 <table>
 <tr>
+<div class="form-group">
 <th> Username: </th>
-<td> <input type="text" name = "username"> </td>
+<td> &nbsp &nbsp &nbsp <input type="text" name = "username"> </td>
+</div>
 </tr>
 <tr>
+<div class="form-group">
 <th> Password: </th>
-<td> <input type="password" name = "passwrd"> </td>
+<td> &nbsp &nbsp &nbsp <input type="password" name = "passwrd"> </td>
+</div>
 </tr>
 <!-- Username:         <input type="text" name = "username"><br><br>
 Password:         <input type="password" name = "passwrd"> <br><br> -->
-<tr>  </tr>
 </table>
-&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <input type="submit" value="Submit">
+&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <input type="submit" value="Submit" class="btn btn-primary">
 </form>
+</div>
 <%
 }
 else
@@ -53,7 +64,7 @@ else
 %>
 <a href='saveChecklist'>Tasks</a>
 <form method='post' action='logout' name='logof'>
-<input type='submit' value='logout'>
+<input type='submit' value='logout' class="btn btn-warning">
 </form>
 <%
 }
@@ -70,6 +81,6 @@ else
 <th> <a href ="resetPasswordMethods.html">Forgot Password</a> </th>
 </tr>
 </table>
-
+</div>
 </body>
 </html>

@@ -85,14 +85,14 @@ public class loginIntoList extends HttpServlet {
 						else
 						{
 							pw.println("Wrong Password entered");
-							pw.println("</br><a href='index.html'>Home</a>");
+							pw.println("</br><a href='index.jsp'>Home</a>");
 						}
 					}
 				}
 				else
 				{
 					pw.println("Your account seeems to be not activated, try activating your account before logging in");
-					pw.println("</br><a href='index.html'>Home</a>");
+					pw.println("</br><a href='index.jsp'>Home</a>");
 					
 				}
 			}
