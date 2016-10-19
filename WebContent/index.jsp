@@ -9,6 +9,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://dl.dropboxusercontent.com/u/77110529/Flash Library/flashImage_v_1_0.js"></script>
+  <script src="ajax_file.js"></script>
+  <script>
+  fi = new flashImage(184, 24, "todolist/fB", ".png", "demo", true, true, false, 0, 184, true, 184);
+  
+  function callFunct() {
+	  fi.preload();
+	  process();
+  }
+  </script>
 <title>Home</title>
 <style>
 td {
@@ -25,10 +35,10 @@ th{
 }
 </style>
 </head>
-<body>
+<body onload="callFunct()">
 <div class="container">
 <!--<h1> Sai Baba </h1>  -->
-<header ><center><embed src="fB.swf" height="135" type="application/x-shockwave-flash" width="550"></embed></center></header>
+<header ><center><img src="todolist/fB0184.png" class="img-responsive" id="demo" onclick="fi.flashTest()" height="135" width="550"/></center></header>
 <%
 HttpSession sess = request.getSession();
 //sess.setAttribute("loggedIn", "");
